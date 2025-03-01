@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Task
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
@@ -24,13 +24,7 @@ def tasks_view(req):
 
 @login_required
 def task_details(req, task_id):
-    '''
-        get the details of a task
-    '''
-    task = Task.objects.get(id=task_id)
-    if task.user != req.user:
-        messages.error(req, 'You are not authorized to view this task')
-        return redirect('tasks')
+    task = get_object_or_404(Task, id=task_id, user=req.user)
     context = {
         'task': task,
         'title': task.title,
@@ -56,3 +50,28 @@ def add_task(req):
     }
     return render(req, 'add_task.html', context)
 
+
+
+@login_required
+def update_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id, user=request.user)  
+    if request.method == 'POST':
+        form = AddTaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Task updated successfully')
+            return redirect('tasks')
+    else:
+        form = AddTaskForm(instance=task)
+    context = {
+        'form': form,
+    }
+    return render(request, 'add_task.html', context)
+
+
+@login_required
+def delete_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id, user=request.user)
+    task.delete()
+    messages.success(request, 'Task deleted successfully')
+    return redirect('tasks')

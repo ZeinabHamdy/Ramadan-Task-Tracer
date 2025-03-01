@@ -15,6 +15,9 @@
     <p>{{task.goal}}</p>
     <p>{{task.current_achieved}}</p>
 
+    <a href="{% url 'update_task' task.id %}">Edit</a>
+    <a href="{% url 'delete_task' task.id %}">Delete</a>
+
     <p>Go back to the 
         <a href="{% url 'home' %}">home page</a>
     </p>
