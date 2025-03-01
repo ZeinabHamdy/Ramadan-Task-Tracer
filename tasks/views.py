@@ -11,11 +11,7 @@ from django import forms
 
 @login_required
 def tasks_view(req):
-    '''
-        get all tasks for the current user in that day
-    '''
-    today = datetime.today().date()  
-    tasks = Task.objects.filter(user=req.user, created_at__date=today)
+    tasks = Task.objects.filter(user=req.user)
     context = {
         'tasks': tasks,
     }
@@ -27,7 +23,6 @@ def task_details(req, task_id):
     task = get_object_or_404(Task, id=task_id, user=req.user)
     context = {
         'task': task,
-        'title': task.title,
     }
     return render(req, 'task_details.html', context)
 

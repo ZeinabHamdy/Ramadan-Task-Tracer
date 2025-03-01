@@ -29,5 +29,8 @@ class Task(models.Model):
         default=0,
     )
 
+    class Meta:
+        ordering = ['created_at']
+
     def __str__(self):
         return self.title

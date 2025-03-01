@@ -5,7 +5,7 @@ from django import forms
 
 class RegisterForm(forms.ModelForm):
     confirm_password = forms.CharField(
-        label='confirm_Password',
+        label='Confirm password',
         widget=forms.PasswordInput(),
         required=True,
     )
@@ -30,16 +30,16 @@ class RegisterForm(forms.ModelForm):
 
         errors = {}
         if User.objects.filter(username=username).exists():
-            errors['username'] = 'اسم المستخدم موجود بالفعل'
+            errors['username'] = 'username already exists'
         if User.objects.filter(email=email).exists():
-            errors['email'] = 'البريد الإلكتروني موجود بالفعل'
+            errors['email'] = 'email already exists'
         if password and confirm_password and password != confirm_password:
             errors['password'] = []
-            errors['password'].append('كلمة المرور غير متطابقة')
+            errors['password'].append('passwords do not match')
         if password and len(password) < 8:
             if 'password' not in errors:
                 errors['password'] = []
-            errors['password'].append('كلمة المرور يجب أن تكون 8 أحرف على الأقل')
+            errors['password'].append('password must be at least 8 characters long')
 
         if errors:
             raise ValidationError(errors)

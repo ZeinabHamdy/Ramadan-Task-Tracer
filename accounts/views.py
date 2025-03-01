@@ -23,7 +23,7 @@ def register_view(req):
     if req.method == 'POST':
         form = RegisterForm(req.POST)
         if form.is_valid():
-            messages.success(req, 'تم التسجيل بنجاح!')
+            messages.success(req, 'Account created successfully')
             user = User.objects.create_user(
                 username=form.cleaned_data['username'],
                 email=form.cleaned_data['email'],
@@ -53,10 +53,10 @@ def login_view(req):
             user = authenticate(req, username=username, password=password)
             if user is not None:
                 login(req, user,)
-                messages.success(req, "تم تسجيل الدخول بنجاح")
+                messages.success(req, 'logged in successfully')
                 return redirect('home')
             else:
-                error_message = 'اسم المستخدم أو كلمة المرور غير صحيحة'
+                error_message = 'username or password is incorrect'
     context={
         'title':'Login',
         'form': form,
@@ -66,7 +66,7 @@ def login_view(req):
 
 def logout_view(req):
     logout(req)
-    messages.success(req, 'تم تسجيل الخروج بنجاح')
+    messages.success(req, 'logged out successfully')
     return redirect('login')
 
 

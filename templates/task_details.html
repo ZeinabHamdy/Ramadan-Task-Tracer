@@ -1,26 +1,85 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}
-    {{title}}
-{% endblock %}
+{% block title %} {{ title }} {% endblock %}
 
 {% block content %}
 
+<div class="container py-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">{{ task.title }}</h2>
+        </div>
+        <div class="card-body">
+            {% if task.description %}
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <h5 class="text-muted mb-2">Description</h5>
+                        <p class="task-desc">{{ task.description }}</p>
+                    </div>
+                </div>
+            {% endif %}
+            
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <p class="task-progress-text">Progress: {% with percentage=task.current_achieved|floatformat:0|add:0 %}
+                        {% if percentage|add:0 > task.goal|add:0 %}
+                            100
+                        {% else %}
+                            {% widthratio task.current_achieved task.goal 100 %}
+                        {% endif %}
+                        {% endwith %}%
+                    </p>
+                
+                    <div class="progress" style="height: 15px;">
+                        <div class="progress-bar" 
+                            role="progressbar" 
+                            style="width: {% widthratio task.current_achieved task.goal 100 %}%;" 
+                            aria-valuenow="{% widthratio task.current_achieved task.goal 100 %}" 
+                            aria-valuemin="0" 
+                            aria-valuemax="100">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card bg-light">
+                        <div class="card-body text-center">
+                            <h6 class="text-muted">Current Progress</h6>
+                            <h4>{{ task.current_achieved }}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card bg-light">
+                        <div class="card-body text-center">
+                            <h6 class="text-muted">Goal</h6>
+                            <h4>{{ task.goal }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-between">
+                <a href="{% url 'tasks' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Back to Tasks
+                </a>
+                <div>
+                    <a href="{% url 'update_task' task.id %}" class="btn btn-warning me-2">
+                        <i class="fas fa-edit me-1"></i> Edit
+                    </a>
+                    <a href="{% url 'delete_task' task.id %}" class="btn btn-danger">
+                        <i class="fas fa-trash me-1"></i> Delete
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <h2>{{title}}</h2>
-    
-    <p>{{task.description}}</p>
-    <p>{{task.status}}</p>
-    <p>{{task.goal}}</p>
-    <p>{{task.current_achieved}}</p>
-
-    <a href="{% url 'update_task' task.id %}">Edit</a>
-    <a href="{% url 'delete_task' task.id %}">Delete</a>
-
-    <p>Go back to the 
-        <a href="{% url 'home' %}">home page</a>
-    </p>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 {% endblock %}
