@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Login in to your account
+{% endblock %}
+
+{% block content %}
+
+
+    {% if error_message %}
+        <p class='alert alert-success'> <strong>{{ error_message }}</strong></p>
+    {% endif %}
+    <h2>Login</h2>
+    <p>Please login to your account.</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+    </form>
+
+    <p>Don't have an account? 
+        <a href="{% url 'register' %}">Sign up</a>
+    </p>
+
+{% endblock %}
