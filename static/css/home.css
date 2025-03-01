@@ -1,0 +1,60 @@
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Tajawal', sans-serif;
+}
+.navbar {
+    background-color: #1e293b !important;
+}
+.navbar-brand, .nav-link {
+    color: white !important;
+    font-weight: bold;
+}
+.navbar-toggler {
+    border-color: white;
+}
+.container-fluid {
+    max-width: 1100px;
+}
+.content {
+    margin-top: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.alert {
+    text-align: center;
+    font-weight: bold;
+}
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.btn-submit {
+    width: 100%;
+    background-color: #1e293b;
+    color: white;
+    font-weight: bold;
+}
+input[type="text"], input[type="number"], textarea, select, input[type="password"], input[type='email'] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+.form-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+

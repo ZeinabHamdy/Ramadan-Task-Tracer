@@ -8,19 +8,20 @@
 {% block content %}
 
 
-    {% if error_message %}
-        <p class='alert alert-success'> <strong>{{ error_message }}</strong></p>
-    {% endif %}
+<div class="form-container">
     <h2>Login</h2>
-    <p>Please login to your account.</p>
+    <p>Please enter your credentials to log in.</p>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+            </div>
+        {% endfor %}
+        <br>
+        <button type="submit" class="btn btn-submit">Login</button>
     </form>
-
-    <p>Don't have an account? 
-        <a href="{% url 'register' %}">Sign up</a>
-    </p>
-
+    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+</div>
 {% endblock %}

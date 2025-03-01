@@ -47,6 +47,7 @@ def add_task(req):
         form = AddTaskForm()
     context = {
         'form': form,
+        'task': 0,
     }
     return render(req, 'add_task.html', context)
 
@@ -65,6 +66,7 @@ def update_task(request, task_id):
         form = AddTaskForm(instance=task)
     context = {
         'form': form,
+        'task': 1,
     }
     return render(request, 'add_task.html', context)
 
