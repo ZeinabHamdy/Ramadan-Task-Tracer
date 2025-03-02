@@ -85,13 +85,6 @@ from django.shortcuts import render
 import random
 
 def home(req):
-    daily_tips = [
-        "Give a small act of kindness today—smile at someone, help a neighbor, or donate to charity.",
-        "Take 5 minutes to reflect on what you’re grateful for.",
-        "Recite Surah Al-Mulk before sleeping for protection.",
-        "Make a dua for someone in need today.",
-        "Try to pray all 5 prayers on time today."
-    ]
     
     user = req.user
     today = now().date()  
@@ -101,7 +94,6 @@ def home(req):
     
     
     context = {
-        "daily_tip": random.choice(daily_tips),
         "progress": min(100.0,round(avg_progress, 2)),
         'signed': req.user.is_authenticated,
     }
