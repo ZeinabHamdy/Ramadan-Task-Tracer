@@ -9,6 +9,20 @@
 
 
 <div class="form-container">
+
+    {% if request.GET.next %}
+        <div class="alert alert-warning">
+            You must be logged in to access this page.
+        </div>
+    {% endif %}
+
+    {% if error_message %}
+        <div class="alert alert-danger" role="alert">
+            {{ error_message }}
+        </div>
+    {% endif %}
+
+
     <h2>Login</h2>
     <p>Please enter your credentials to log in.</p>
     <form method="post">

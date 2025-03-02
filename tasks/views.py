@@ -13,7 +13,7 @@ from django import forms
 
 # Create your views here.
 
-@login_required
+@login_required(login_url='/login')
 def tasks_view(req):
     user = req.user
     today = now().date()  
@@ -33,7 +33,7 @@ def task_details(req, task_id):
     return render(req, 'task_details.html', context)
 
 
-@login_required
+@login_required(login_url='/login')
 def add_task(req):
     user = req.user 
     if req.method == 'POST':
@@ -100,6 +100,7 @@ def home(req):
         }
     
     return render(req, "home.html", context)
+
 
 @login_required
 def progress_overview(request):
