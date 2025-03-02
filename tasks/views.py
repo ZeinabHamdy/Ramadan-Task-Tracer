@@ -81,26 +81,27 @@ def delete_task(request, task_id):
 
 
 
-from django.shortcuts import render
-import random
 
 def home(req):
     
-    user = req.user
-    today = now().date()  
-    tasks_today = Task.objects.filter(user=user, created_at__date=today)
-
-    avg_progress = tasks_today.aggregate(avg_progress=Avg('progress'))['avg_progress'] or 0
-    
-    
-    context = {
-        "progress": min(100.0,round(avg_progress, 2)),
+    context={
         'signed': req.user.is_authenticated,
+        'progress': 0,
     }
+
+    if req.user.is_authenticated:
+        user = req.user
+        today = now().date()  
+        tasks_today = Task.objects.filter(user=user, created_at__date=today)
+        avg_progress = tasks_today.aggregate(avg_progress=Avg('progress'))['avg_progress'] or 0
+        context = {
+            "progress": min(100.0,round(avg_progress, 2)),
+            'signed': req.user is not None,
+        }
     
     return render(req, "home.html", context)
 
-
+@login_required
 def progress_overview(request):
     user = request.user
     task_dates = Task.objects.filter(user=user).dates('created_at', 'day')
