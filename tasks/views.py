@@ -1,17 +1,23 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from .forms import AddTaskForm
 from .models import Task
-from datetime import datetime
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
+from django.utils.timezone import now
 from django.contrib import messages
-from .forms import AddTaskForm
+from django.db.models import Avg
+from datetime import datetime
 from django import forms
 
 # Create your views here.
 
 @login_required
 def tasks_view(req):
-    tasks = Task.objects.filter(user=req.user)
+    user = req.user
+    today = now().date()  
+    tasks = Task.objects.filter(user=user, created_at__date=today)
     context = {
         'tasks': tasks,
     }
@@ -72,3 +78,54 @@ def delete_task(request, task_id):
     task.delete()
     messages.success(request, 'Task deleted successfully')
     return redirect('tasks')
+
+
+
+from django.shortcuts import render
+import random
+
+def home(req):
+    daily_tips = [
+        "Give a small act of kindness today—smile at someone, help a neighbor, or donate to charity.",
+        "Take 5 minutes to reflect on what you’re grateful for.",
+        "Recite Surah Al-Mulk before sleeping for protection.",
+        "Make a dua for someone in need today.",
+        "Try to pray all 5 prayers on time today."
+    ]
+    
+    user = req.user
+    today = now().date()  
+    tasks_today = Task.objects.filter(user=user, created_at__date=today)
+
+    avg_progress = tasks_today.aggregate(avg_progress=Avg('progress'))['avg_progress'] or 0
+    
+    
+    context = {
+        "daily_tip": random.choice(daily_tips),
+        "progress": min(100.0,round(avg_progress, 2)),
+        'signed': req.user.is_authenticated,
+    }
+    
+    return render(req, "home.html", context)
+
+
+def progress_overview(request):
+    user = request.user
+    task_dates = Task.objects.filter(user=user).dates('created_at', 'day')
+
+    progress_by_day = []
+    for date in task_dates:
+        tasks_on_day = Task.objects.filter(user=user, created_at__date=date)
+        avg_progress = tasks_on_day.aggregate(avg_progress=Avg('progress'))['avg_progress'] or 0
+
+        progress_by_day.append({
+            'date': date,
+            'tasks': tasks_on_day,
+            'avg_progress': round(avg_progress, 2),
+        })
+
+    context = {
+        'progress_by_day': progress_by_day,
+    }
+
+    return render(request, 'progress_overview.html', context)

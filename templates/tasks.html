@@ -17,14 +17,7 @@
                 <h3 class="task-title text-primary">{{ task.title }}</h3>
 
                 
-                <p class="task-progress-text">Progress: {% with percentage=task.current_achieved|floatformat:0|add:0 %}
-                    {% if percentage|add:0 > task.goal|add:0 %}
-                        100
-                    {% else %}
-                        {% widthratio task.current_achieved task.goal 100 %}
-                    {% endif %}
-                    {% endwith %}%
-                </p>
+                <p class="task-progress-text">Progress: {{task.progress}}%</p>
                 <div class="progress" style="height: 15px;">
                     <div class="progress-bar" 
                         role="progressbar" 
