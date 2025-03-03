@@ -102,7 +102,7 @@ def home(req):
     return render(req, "home.html", context)
 
 
-@login_required
+@login_required(login_url='/login')
 def progress_overview(request):
     user = request.user
     task_dates = Task.objects.filter(user=user).dates('created_at', 'day')
