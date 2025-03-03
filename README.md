@@ -4,7 +4,7 @@
 ## Project Overview
 Ramadan Task Tracker is a web application designed to help users track their daily tasks efficiently during Ramadan.
 
-![Demo](Demo.mp4)
+[Demo video](Demo.mp4)
 ## Prerequisites
 Ensure you have the following installed before proceeding:
 - Python (>=3.8) - [Download here](https://www.python.org/downloads/)
