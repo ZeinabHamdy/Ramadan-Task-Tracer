@@ -8,7 +8,7 @@
         <div class="card shadow-sm mb-4">
             <div class="card-body">
                 <h4 class="card-title text-primary">{{ day.date }}</h4>
-                <p class="text-muted">Overall Progress:</p>
+                <p class="text-muted">Overall Progress: {{day.avg_progress}} %</p>
                 
                 <div class="progress mb-3">
                     <div class="progress-bar" role="progressbar" 
@@ -22,7 +22,7 @@
                 <ul class="list-group">
                     {% for task in day.tasks %}
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <strong>{{ task.title }}</strong>
+                            <strong> <a href="{% url 'task_details' task.id %} " style='text-decoration: none'> {{ task.title }} </a> </strong>
                             <span class="badge bg-primary">{{ task.progress }}%</span>
                         </li>
                     {% endfor %}
